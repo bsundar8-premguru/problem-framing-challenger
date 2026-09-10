@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#152b36">
+  <meta name="description" content="A student-led problem framing conversation tool for engineering design teams.">
+  <title>Problem Framing Challenger</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="header-actions">
+      <button class="icon-button" id="aboutButton" type="button" aria-haspopup="dialog" aria-label="About this tool">?</button>
+    </div>
+  </header>
+
+  <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Switch to dark mode">
+    <span class="theme-icon" aria-hidden="true">☾</span>
+    <span class="theme-label">Dark</span>
+  </button>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="pageTitle">
+      <div class="eyebrow">Understand the problem</div>
+      <h1 id="pageTitle">Challenge the frame.<br><em>Strengthen the thinking.</em></h1>
+      <p class="hero-copy">Surface hidden assumptions, solution-first language, and missing perspectives before your team commits to a direction.</p>
+      <div class="principle">This tool asks questions. Your team does the engineering.</div>
+    </section>
+
+    <section class="workspace" aria-label="Problem framing workspace">
+      <ol class="stepper" aria-label="Progress">
+        <li class="step active" data-step="1"><span>1</span><div><strong>Describe</strong><small>Share your current frame</small></div></li>
+        <li class="step" data-step="2"><span>2</span><div><strong>Examine &amp; discuss</strong><small>Notice gaps and take questions to your team</small></div></li>
+      </ol>
+
+      <section class="panel input-panel" id="inputPanel" aria-labelledby="inputTitle">
+        <div class="panel-heading">
+          <div>
+            <span class="section-number">01</span>
+            <h2 id="inputTitle">What problem is your team trying to address?</h2>
+          </div>
+          <button class="text-button" id="exampleButton" type="button">Use an example</button>
+        </div>
+
+        <form id="challengeForm" novalidate>
+          <label for="problem">Current problem statement <span aria-hidden="true">*</span></label>
+          <p class="field-help" id="problemHelp">Use your team’s own words. It can be unfinished.</p>
+          <div class="textarea-wrap">
+            <textarea id="problem" name="problem" rows="7" maxlength="1200" aria-describedby="problemHelp problemError problemCount" placeholder="Example: Students need an app that reminds them to drink more water during the school day." required></textarea>
+            <span class="character-count" id="problemCount">0 / 1,200</span>
+          </div>
+          <p class="field-error" id="problemError" role="alert"></p>
+
+          <details class="context-details">
+            <summary><span class="plus" aria-hidden="true">+</span> Add context <small>optional, but useful</small></summary>
+            <div class="context-grid">
+              <div>
+                <label for="stakeholders">Who is affected?</label>
+                <textarea id="stakeholders" name="stakeholders" rows="3" maxlength="600" placeholder="People, groups, communities, maintainers…"></textarea>
+              </div>
+              <div>
+                <label for="context">What do you currently know?</label>
+                <textarea id="context" name="context" rows="3" maxlength="1000" placeholder="Observations, evidence, constraints, uncertainties…"></textarea>
+              </div>
+            </div>
+          </details>
+
+          <div class="form-footer">
+            <p><span class="privacy-icon" aria-hidden="true">◇</span> Your entries are not saved by this page.</p>
+            <button class="primary-button" id="analyzeButton" type="submit">
+              <span>Challenge this frame</span><span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel results-panel" id="resultsPanel" aria-labelledby="resultsTitle" hidden>
+        <div class="results-topline">
+          <div>
+            <span class="section-number">02</span>
+            <h2 id="resultsTitle">What deserves a second look?</h2>
+          </div>
+          <button class="secondary-button" id="editButton" type="button">← Edit the frame</button>
+        </div>
+
+        <p class="overview" id="overview"></p>
+        <div class="lens-grid" id="lensGrid" aria-label="Framing lenses"></div>
+
+        <div class="questions-heading">
+          <div>
+            <span class="section-number">03</span>
+            <h2>Questions for your team</h2>
+          </div>
+          <p>Choose the questions that create the most useful disagreement or uncertainty.</p>
+        </div>
+        <div class="question-list" id="questionList"></div>
+
+        <div class="closing-card">
+          <span class="closing-label">Before you revise</span>
+          <p id="closingPrompt"></p>
+        </div>
+
+        <div class="results-actions">
+          <button class="secondary-button" id="copyButton" type="button">Copy team questions</button>
+          <button class="secondary-button" id="printButton" type="button">Print discussion sheet</button>
+          <button class="primary-button" id="reviseButton" type="button"><span>Revise our statement</span><span aria-hidden="true">→</span></button>
+        </div>
+      </section>
+    </section>
+
+    <section class="lens-explainer" aria-labelledby="lensTitle">
+      <div>
+        <span class="eyebrow">Four framing lenses</span>
+        <h2 id="lensTitle">A stronger frame makes the unknowns visible.</h2>
+      </div>
+      <div class="lens-list">
+        <article><span>01</span><h3>Solution lock-in</h3><p>Does the statement prescribe an answer before the need is understood?</p></article>
+        <article><span>02</span><h3>Assumptions</h3><p>What is being treated as true without evidence?</p></article>
+        <article><span>03</span><h3>Missing voices</h3><p>Who experiences, maintains, enables, or is affected by this problem?</p></article>
+        <article><span>04</span><h3>Success</h3><p>What change would show the problem is meaningfully improved?</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Problem Framing Challenger</p>
+    <p>A short engineering design conversation tool</p>
+  </footer>
+
+  <dialog id="aboutDialog">
+    <button class="dialog-close" id="closeDialog" type="button" aria-label="Close">×</button>
+    <span class="eyebrow">About this tool</span>
+    <h2>Slow down the leap from “we think” to “therefore.”</h2>
+    <p>The challenger examines the language and boundaries of a problem statement, then gives your team four to six questions to discuss.</p>
+    <p>It will not rewrite the statement, choose a problem, propose solutions, or grade your work. Your team decides what changes.</p>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
